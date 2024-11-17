@@ -1,7 +1,6 @@
 package com.example.expensetracker
 
 import android.os.Bundle
-import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 
 class AddTransactionActivity : AppCompatActivity() {
