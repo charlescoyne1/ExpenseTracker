@@ -34,5 +34,17 @@ class MainActivity : AppCompatActivity() {
             adapter = transactionAdapter
             layoutManager = linearLayoutManager
         }
+
+        updateDashboard()
+    }
+
+    private fun updateDashboard() {
+        val totalAmount = transactions.map { it.amount }.sum()
+        val budgetAmount = transactions.filter { it.amount > 0 }.map { it.amount }.sum()
+        val expenseAmount = totalAmount - budgetAmount
+
+        binding.balance.text = "$ %.2f".format(totalAmount)
+        binding.budget.text = "$ %.2f".format(budgetAmount)
+        binding.expense.text = "$ %.2f".format(expenseAmount)
     }
 }
