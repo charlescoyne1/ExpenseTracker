@@ -1,8 +1,8 @@
 package com.example.expensetracker
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.databinding.ActivityMainBinding
 
@@ -36,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateDashboard()
+
+        binding.addBtn.setOnClickListener {
+            val intent = Intent(this, AddTransactionActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun updateDashboard() {
