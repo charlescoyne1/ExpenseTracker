@@ -4,42 +4,51 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.example.expensetracker.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var transactions : ArrayList<Transaction>
+    private lateinit var transactions : List<Transaction>
     private lateinit var transactionAdapter : TransactionAdapter
     private lateinit var linearLayoutManager : LinearLayoutManager
+    private lateinit var db : AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        transactions = arrayListOf(
-            Transaction("Weekend budget", 400.00),
-            Transaction("Bananas", -4.00),
-            Transaction("Gasoline", -40.90),
-            Transaction("Breakfast", -9.99),
-            Transaction("Water bottles", -4.00),
-            Transaction("Suncream", -8.00),
-            Transaction("Car Park", -15.00)
-        )
+        transactions = arrayListOf()
 
         transactionAdapter = TransactionAdapter(transactions)
         linearLayoutManager = LinearLayoutManager(this)
+
+        db = Room.databaseBuilder(this,
+            AppDatabase::class.java,
+            "transactions").build()
 
         binding.recyclerview.apply {
             adapter = transactionAdapter
             layoutManager = linearLayoutManager
         }
 
-        updateDashboard()
-
         binding.addBtn.setOnClickListener {
             val intent = Intent(this, AddTransactionActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun fetchAll() {
+        GlobalScope.launch {
+            transactions = db.transactionDao().getAll()
+
+            runOnUiThread {
+                updateDashboard()
+                transactionAdapter.setData(transactions)
+            }
         }
     }
 
@@ -51,5 +60,10 @@ class MainActivity : AppCompatActivity() {
         binding.balance.text = "$ %.2f".format(totalAmount)
         binding.budget.text = "$ %.2f".format(budgetAmount)
         binding.expense.text = "$ %.2f".format(expenseAmount)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fetchAll()
     }
 }

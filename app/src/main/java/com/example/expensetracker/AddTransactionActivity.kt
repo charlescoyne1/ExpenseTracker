@@ -3,7 +3,10 @@ package com.example.expensetracker
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.room.Room
 import com.example.expensetracker.databinding.ActivityAddTransactionBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class AddTransactionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddTransactionBinding
@@ -25,15 +28,31 @@ class AddTransactionActivity : AppCompatActivity() {
 
         binding.addTransactionBtn.setOnClickListener {
             val label = binding.labelInput.text.toString()
+            val description = binding.descriptionInput.text.toString()
             val amount = binding.amountInput.text.toString().toDoubleOrNull()
 
             if(label.isEmpty())
                 binding.labelLayout.error = "Please enter a valid label"
 
-            if (amount == null)
+            else if (amount == null)
                 binding.amountLayout.error = "Please enter a valid amount"
+            else {
+                val transaction = Transaction(0, label, amount, description)
+                insert(transaction)
+            }
         }
         binding.closeBtn.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun insert(transaction: Transaction) {
+        val db = Room.databaseBuilder(this,
+            AppDatabase::class.java,
+            "transactions").build()
+
+        GlobalScope.launch {
+            db.transactionDao().insertAll(transaction)
             finish()
         }
     }
