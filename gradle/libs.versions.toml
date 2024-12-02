@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.2"
+hamcrestCore = "2.2"
 kotlin = "1.9.24"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -10,13 +11,23 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 materialVersion = "<version>"
+orchestrator = "1.5.1"
+robolectric = "4.10.3"
 roomRuntime = "2.6.1"
+junitKtx = "1.2.1"
+coroutinesTest = "1.7.3"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espressoCore" }
+androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espressoCore" }
+androidx-orchestrator = { module = "androidx.test:orchestrator", version.ref = "orchestrator" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+hamcrest-core = { module = "org.hamcrest:hamcrest-core", version.ref = "hamcrestCore" }
+hamcrest-library = { module = "org.hamcrest:hamcrest-library", version.ref = "hamcrestCore" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -25,6 +36,12 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 material-vversion = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomRuntime" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesTest" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

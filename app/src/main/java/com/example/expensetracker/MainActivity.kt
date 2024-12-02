@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var deletedTransaction: Transaction
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var transactions : List<Transaction>
+    lateinit var binding: ActivityMainBinding
+    lateinit var transactions : List<Transaction>
     private lateinit var oldTransactions : List<Transaction>
     private lateinit var transactionAdapter : TransactionAdapter
     private lateinit var linearLayoutManager : LinearLayoutManager
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun fetchAll() {
+    fun fetchAll() {
         GlobalScope.launch {
             transactions = db.transactionDao().getAll()
 

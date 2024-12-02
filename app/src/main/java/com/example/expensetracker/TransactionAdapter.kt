@@ -22,19 +22,17 @@ class TransactionAdapter(private var transactions: List<Transaction>) :
     }
 
     override fun onBindViewHolder(holder: TransactionHolder, position: Int) {
-        val transaction : Transaction = transactions[position]
+        val transaction: Transaction = transactions[position]
         val context = holder.amount.context
 
-        if (transaction.amount >= 0) {
-            holder.amount.text = "+ $%.2f".format(transaction.amount)
-            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.green))
-        }else {
-            holder.amount.text = "- $%.2f".format(Math.abs(transaction.amount))
-            holder.amount.setTextColor(ContextCompat.getColor(context, R.color.red))
-        }
+        // Set formatted amount and color
+        holder.amount.text = transaction.formattedAmount()
+        holder.amount.setTextColor(ContextCompat.getColor(context, transaction.getColorResource()))
 
+        // Set label
         holder.label.text = transaction.label
 
+        // Set click listener to open DetailedActivity
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailedActivity::class.java)
             intent.putExtra("transaction", transaction)
